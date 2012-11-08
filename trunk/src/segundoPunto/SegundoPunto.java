@@ -15,7 +15,7 @@ public class SegundoPunto {
 		String individuo4[] = {"B","A","B","A"};
 		String poblacion[][] = {individuo1, individuo2, individuo3, individuo4};
 		
-		System.out.println("----------Poblacion Inicial----------");
+		System.out.println("----------Población Inicial----------");
 		System.out.println();
 		System.out.println(imprimirPoblacion(poblacion));
 		System.out.println();
@@ -40,27 +40,49 @@ public class SegundoPunto {
 			/****************************************************************/
 			generacion++;
 		}
+		generacion--;
+		/**************Impresión de datos por consola********************/
+		System.out.println();
+		System.out.println();
+		System.out.println("**********Convergencia****************");
+		System.out.println();
+		System.out.println(" -> Generación # "+generacion);
+		System.out.println(imprimirPoblacion(poblacion));
+		System.out.println();
+		/****************************************************************/
 	}
 	
 	// Método encargado de seleccionar 2 individuos aleatoriamente de la población actual
 	private static String[][] seleccionar(String poblacion[][]){
 		
 		String individuosSeleccionados[][] = new String[2][4];
-		Random r = new Random();
-		int aleatorio1, aleatorio2;
-		aleatorio1 =  r.nextInt(4); // Se genera un indice aleatorio para el primer individuo
-		individuosSeleccionados[0] = poblacion[aleatorio1];
-		// Generamos un siguiente indice aleatorio que sea diferente del generado anteriormente, éste pertenecerá
-		// al segundo individuo aleatorio
-		do{
-			aleatorio2 = r.nextInt(4);
-			individuosSeleccionados[1] = poblacion[aleatorio2];	
-		}while(aleatorio2==aleatorio1);
+		
+		// Se obtiene el individuo con mejor aptitud
+		int iMejor = 0;
+		int mejorApt = 0;
+		for(int i = 0; i<=3; i++){
+			if(medirAptitud(poblacion[i])>mejorApt){
+				iMejor = i;
+				mejorApt = medirAptitud(poblacion[i]); 
+			}
+		}
+		// Se obtiene el segundo individuo con mejor aptitud que sea diferente del primero
+		int i2Mejor = 0;
+		int mejor2Apt = 0;
+		for(int i = 0; i<=3; i++){
+			if(medirAptitud(poblacion[i])>mejor2Apt && i!=iMejor){
+				i2Mejor = i;
+				mejor2Apt = medirAptitud(poblacion[i]); 
+			}
+		}		
+		
+		individuosSeleccionados[0] = poblacion[iMejor]; 
+		individuosSeleccionados[1] = poblacion[i2Mejor];
 		
 		/**************Impresión de datos por consola********************/
-		System.out.println(" 1. Seleccion");
-		System.out.println("       o Individuo "+(aleatorio1+1)+": "+imprimirIndividuo(individuosSeleccionados[0]));
-		System.out.println("       o Individuo "+(aleatorio2+1)+": "+imprimirIndividuo(individuosSeleccionados[1]));
+		System.out.println(" 1. Selección");
+		System.out.println("       o Individuo "+(iMejor+1)+": "+imprimirIndividuo(individuosSeleccionados[0]));
+		System.out.println("       o Individuo "+(i2Mejor+1)+": "+imprimirIndividuo(individuosSeleccionados[1]));
 		System.out.println();	
 		/****************************************************************/
 		
