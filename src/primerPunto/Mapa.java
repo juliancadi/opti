@@ -3,10 +3,6 @@ package primerPunto;
 import java.util.Random;
 import java.util.Vector;
 
-
-
-
-
 public class Mapa {
 	
 	private int cobertura[][];
@@ -20,7 +16,7 @@ public class Mapa {
 	public static final int A_1MW = 1;
 	public static final int A_3MW = 2;
 	public static final int A_4MW = 3;
-	public static final double PROBABILIDAD_ANTENA = 0.10;
+	public static final double PROBABILIDAD_ANTENA = 0.20;
 	
 	public Mapa() {
 		super();
@@ -130,8 +126,19 @@ public class Mapa {
 				binarios.add(b1);
 				binarios.add(b0);
 			}
-			//m.setAntenas(binarios);
-		//}while(m.getAntenasInstaladas()>10);
+			int mix1,mix2,aux1,aux2;
+			for(int i=0;i<20;i++){
+				mix1 = r.nextInt(binarios.size());
+				if((mix1%2)!=0) mix1--;
+				mix2 = r.nextInt(binarios.size());
+				if((mix2%2)!=0) mix2--;
+				aux1 = binarios.elementAt(mix2);
+				aux2 = binarios.elementAt(mix2+1);
+				binarios.setElementAt(binarios.elementAt(mix1), mix2);
+				binarios.setElementAt(binarios.elementAt(mix1+1), mix2+1);
+				binarios.setElementAt(aux1, mix1);
+				binarios.setElementAt(aux2, mix1+1);
+			}
 		return binarios;
 	}
 	
@@ -234,6 +241,9 @@ public class Mapa {
 			resultado = resultado + "--------------------------------------------------------------";
 			resultado = resultado + "\n";
 		}
+		resultado = resultado + "Antenas instaladas: "+this.getAntenasInstaladas()+"/"+this.getnAntenas()+"\n";
+		resultado = resultado + "Potencia total: "+this.getPotenciaTotal()+" Mw"+"\n";
+		resultado = resultado + "Cobertura total: "+this.evaluarZ()+"\n";
 		
 		return resultado;
 	}
@@ -272,13 +282,22 @@ public class Mapa {
 				}
 			}
 		}
-		/*// penalizacion
+		// penalizacion
 		if(this.getPotenciaTotal()>20){
-			resultado = resultado - (this.getPotenciaTotal()-20)*10;
+			resultado = resultado - (this.getPotenciaTotal()-20);
 		}
 		if(this.getAntenasInstaladas()>10){
-			resultado = resultado - (this.getAntenasInstaladas()-10)*30;
-		}*/
+			resultado = resultado - (this.getAntenasInstaladas()-10);
+		}
+		return resultado;
+	}
+
+	public static String imprimirPoblacion(Mapa m,Vector<Integer>[] poblacion) {
+		String resultado = "";
+		for(int i = 0; i<poblacion.length;i++){
+			m.setAntenas(poblacion[i]);
+			resultado = resultado + m.imprimirMapa();
+		}
 		return resultado;
 	}
 
