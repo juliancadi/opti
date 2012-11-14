@@ -9,37 +9,34 @@ public class AlgoritmoEvolutivo {
 
 		// Población Inicial
 		Mapa mapa = Mapa.generarMapaAleatorio();
+		@SuppressWarnings("unchecked")
 		Vector<Integer> poblacion[] = new Vector[4];
 		poblacion[0] = Mapa.generarBinariosAntenas(mapa);
 		poblacion[1] = Mapa.generarBinariosAntenas(mapa);
 		poblacion[2] = Mapa.generarBinariosAntenas(mapa);
 		poblacion[3] = Mapa.generarBinariosAntenas(mapa);
 				
+		/**************Impresión de datos por consola********************/
 		System.out.println("----------Población Inicial----------");
-		System.out.println();
+        System.out.println();
 		System.out.println(Mapa.imprimirPoblacion(mapa, poblacion));
 		System.out.println();
+        /****************************************************************/
 				
 		// El ciclo de creación de nuevas generaciones se realizará hasta que se cumpla el criterio de convergencia
 		int generacion = 1;
 		while(converge(poblacion)==false){
 			// Obtención de los nuevos integrantes de la siguiente generación
-			Vector<Integer> individuosPorSeleccion[] = seleccionar(mapa, poblacion); // Se obtienen 2 por selección
+			Vector<Integer> individuosPorSeleccion[] = seleccionar(mapa, poblacion); // Se obtienen los 2 mejores por selección
 			Vector<Integer> individuoPorCruce = cruzar(mapa,poblacion); // Se obtiene 1 hijo del cruce de 2 individuos
-			Vector<Integer> individuoPorMutacion = mutar(mapa,poblacion); // Se obtiene 1 individuo mutado
+			Vector<Integer> individuoPorMutacion = mutar(mapa,poblacion); // Se obtiene 1 individuo por mutación
 			// Reemplazo de los nuevos individuos en la población
 			poblacion[0] = individuosPorSeleccion[0];
 			poblacion[1] = individuosPorSeleccion[1];
 			poblacion[2] = individuoPorCruce;
 			poblacion[3] = individuoPorMutacion;
-			/**************Impresión de datos por consola********************/
-			/*System.out.println("----------Generación # "+generacion+"----------");
-			System.out.println();
-			System.out.println(Mapa.imprimirPoblacion(mapa, poblacion));
-			System.out.println();*/
-			/****************************************************************/
+
 			generacion++;
-			if(generacion>10000) break;
 		}
 		generacion--;
 		/**************Impresión de datos por consola********************/
@@ -115,6 +112,7 @@ public class AlgoritmoEvolutivo {
 
 	private static Vector<Integer>[] seleccionar(Mapa m,Vector<Integer> poblacion[]) {
 		
+		@SuppressWarnings("unchecked")
 		Vector<Integer> individuosSeleccionados[] = new Vector[2];
 		
 		// Se obtiene el individuo con mejor aptitud
@@ -146,6 +144,7 @@ public class AlgoritmoEvolutivo {
 
 	private static boolean converge(Vector<Integer> poblacion[]) {
 		boolean convergencia = false;
+		// El criterio de convergencia es que todos los individuos de la población sean iguales
 		if(poblacion[0].equals(poblacion[1])&&poblacion[1].equals(poblacion[2])&&poblacion[2].equals(poblacion[3])) convergencia = true;
 		return convergencia;
 	}
