@@ -15,10 +15,12 @@ public class SegundoPunto {
 		String individuo4[] = {"B","A","B","A"};
 		String poblacion[][] = {individuo1, individuo2, individuo3, individuo4};
 		
+		/**************Impresión de datos por consola********************/
 		System.out.println("----------Población Inicial----------");
 		System.out.println();
 		System.out.println(imprimirPoblacion(poblacion));
 		System.out.println();
+		/****************************************************************/
 		
 		// El ciclo de creación de nuevas generaciones se realizará hasta que se cumpla el criterio de convergencia
 		int generacion = 1;
